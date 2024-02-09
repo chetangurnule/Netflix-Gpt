@@ -1,33 +1,26 @@
 import { useState, useEffect } from "react";
-import config from "../config/config";
+import fetchApi from "../utils/api";
 
-const useFetch = (endPoint) => {
+const useFetch = (url) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const baseApiUrl = config.baseApiUrl;
-  const tmdbToken = config.tmdbToken;
-  const defaultOptions = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${tmdbToken}`,
-    },
-  };
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(baseApiUrl + endPoint, defaultOptions)
-      .then((res) => res.json())
-      .then((jsonData) => {
+    setData([]);
+    setError(null);
+
+    fetchApi(url)
+      .then((responseData) => {
+        setData(responseData);
         setIsLoading(false);
-        setData(jsonData);
       })
-      .catch((err) => {
+      .catch((error) => {
+        setError(error);
         setIsLoading(false);
-        setError(err);
       });
-  }, []);
+  }, [url]);
 
   return { data, isLoading, error };
 };

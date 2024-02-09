@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { validateForm } from "../utils/validation";
 import { formData } from "../utils/formData";
 import { Input } from "../components";
@@ -9,10 +9,9 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import { useDispatch } from "react-redux";
+import useBrowse from "../customHooks/useBrowse";
 
 const Form = () => {
-  const disptach = useDispatch();
   const [isSignIn, setIsSignIn] = useState(true);
   const [data, setData] = useState(formData);
   const [errorMsg, setErrorMsg] = useState({
@@ -22,6 +21,9 @@ const Form = () => {
     signIn: "",
     signUp: "",
   });
+
+  // calling of useBrowse hook
+  useBrowse(true);
 
   const clearErrorMsg = () => {
     setTimeout(() => {
@@ -114,7 +116,6 @@ const Form = () => {
               })
               .catch((error) => {
                 // An error occurred
-                console.log(error);
               });
           })
           .catch((error) => {
@@ -132,8 +133,9 @@ const Form = () => {
       clearErrorMsg();
     }
   };
+
   return (
-    <div className=" w-3/4 mt-20 sm:w-[400px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-75 rounded px-8 pt-6 pb-8">
+    <div className=" w-3/4 mt-8 sm:w-[400px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-75 rounded px-8 pt-6 pb-8 z-50">
       {errorMsg && (
         <div className="text-red-700 px-4 py-2 mt-2 w-full text-center font-bold transition-all duration-500">
           {Object.entries(errorMsg)?.map(([errorName, errorMessage], i) => {

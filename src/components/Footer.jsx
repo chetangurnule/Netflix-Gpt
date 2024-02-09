@@ -3,68 +3,89 @@ import netflixLogo from "../assets/netflix-logo.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-white py-12">
-      <div className="container mx-auto">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Logo and copyright */}
-          <div className="col-span-2 lg:col-span-1 flex items-center">
-            <img src={netflixLogo} alt="Netflix Logo" className="h-8" />
-            <span className="ml-2 text-sm">All rights reserved</span>
-          </div>
-
-          {/* Quick Links */}
-          <div className="col-span-1">
-            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+    <footer className="bg-gray-900 text-white py-12">
+      <div className="container mx-auto flex flex-col lg:flex-row justify-evenly items-center">
+        <div className="flex items-center mb-8 lg:mb-0">
+          <img src={netflixLogo} alt="Netflix Logo" className="h-8 mr-2" />
+          <span className="text-sm font-semibold mr-4">
+            All rights reserved
+          </span>
+        </div>
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-12">
+          <div>
+            <h4 className="text-lg font-semibold mb-2">Quick Links</h4>
             <ul className="text-sm">
               <li>
-                <a href="#">Home</a>
+                <a href="#" className="hover:text-gray-400">
+                  Home
+                </a>
               </li>
               <li>
-                <a href="#">Browse</a>
+                <a href="#" className="hover:text-gray-400">
+                  Browse
+                </a>
               </li>
               <li>
-                <a href="#">TV Shows</a>
+                <a href="#" className="hover:text-gray-400">
+                  TV Shows
+                </a>
               </li>
               <li>
-                <a href="#">Movies</a>
+                <a href="#" className="hover:text-gray-400">
+                  Movies
+                </a>
               </li>
             </ul>
           </div>
 
-          {/* Information */}
-          <div className="col-span-1">
-            <h4 className="text-lg font-semibold mb-4">Information</h4>
+          <div>
+            <h4 className="text-lg font-semibold mb-2">Information</h4>
             <ul className="text-sm">
               <li>
-                <a href="#">Privacy</a>
+                <a href="#" className="hover:text-gray-400">
+                  Privacy
+                </a>
               </li>
               <li>
-                <a href="#">Terms of Use</a>
+                <a href="#" className="hover:text-gray-400">
+                  Terms of Use
+                </a>
               </li>
               <li>
-                <a href="#">Cookie Preferences</a>
+                <a href="#" className="hover:text-gray-400">
+                  Cookie Preferences
+                </a>
               </li>
               <li>
-                <a href="#">Corporate Information</a>
+                <a href="#" className="hover:text-gray-400">
+                  Corporate Information
+                </a>
               </li>
             </ul>
           </div>
 
-          {/* Social Media */}
-          <div className="col-span-2 lg:col-span-1">
-            <h4 className="text-lg font-semibold mb-4">Follow Us</h4>
-            <ul className="text-sm flex space-x-4">
+          <div>
+            <h4 className="text-lg font-semibold mb-2">Follow Us</h4>
+            <ul className="text-sm flex gap-2">
               <li>
-                <a href="#">Facebook</a>
+                <a href="#" className="hover:text-gray-400">
+                  Facebook
+                </a>
               </li>
               <li>
-                <a href="#">Twitter</a>
+                <a href="#" className="hover:text-gray-400">
+                  Twitter
+                </a>
               </li>
               <li>
-                <a href="#">Instagram</a>
+                <a href="#" className="hover:text-gray-400">
+                  Instagram
+                </a>
               </li>
               <li>
-                <a href="#">YouTube</a>
+                <a href="#" className="hover:text-gray-400">
+                  YouTube
+                </a>
               </li>
             </ul>
           </div>

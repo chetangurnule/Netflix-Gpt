@@ -1,19 +1,19 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Container } from "./index";
 import netflixLogo from "../assets/netflix-logo.png";
-import { signOut } from "firebase/auth";
-import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { removeUser } from "../utils/userSlice";
 import { FaBell } from "react-icons/fa";
 import { MdArrowDropUp, MdArrowDropDown } from "react-icons/md";
-import { addUser } from "../utils/userSlice";
-import { onAuthStateChanged } from "firebase/auth";
 import UserLogo from "../assets/user-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import { removeUser } from "../utils/userSlice";
+import { signOut } from "firebase/auth";
+import { auth } from "../utils/firebase";
+import useBrowse from "../customHooks/useBrowse";
+import { addGenres } from "../utils/GenresSlice";
+import useFetch from "../customHooks/useFetch";
 
 const Header = () => {
   const data = useSelector((state) => state.user);
@@ -21,16 +21,24 @@ const Header = () => {
   const [searchIconClicked, setSearchIconClicked] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [toggle, setToggle] = useState(false);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const toggleDropdown = () => {
     setToggle(!toggle);
   };
 
-  const handleClearSearch = () => {
-    setSearchText("");
-  };
+  // useBrowse hook to check user is signed in or not
+  useBrowse();
+
+  // get the genres and store it in the
+  let genres = {};
+  const { data: genresData } = useFetch("/genre/movie/list");
+
+  if (genresData.genres) {
+    genresData.genres.map((genre) => (genres[genre.id] = genre.name));
+    dispatch(addGenres(genres));
+  }
 
   const handleSearchIconClicked = () => {
     setSearchIconClicked(!searchIconClicked);
@@ -40,9 +48,12 @@ const Header = () => {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
+        navigate("/");
+        dispatch(removeUser());
       })
       .catch((error) => {
         // An error happened.
+        navigate("/error");
       });
   };
 
@@ -64,50 +75,32 @@ const Header = () => {
     };
   }, []); // Empty dependency array ensures this effect runs only once
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/auth.user
-        const { displayName, email, uid } = user;
-        dispatch(addUser({ displayName, email, uid }));
-        navigate("/browse");
-      } else {
-        // User is signed out
-        dispatch(removeUser());
-        navigate("/");
-      }
-    });
-  }, []);
+  const searchQueryHandler = (event) => {
+    if (event.key === "Enter" && searchText.length > 0) {
+      navigate(`../search/${searchText}`);
+      setTimeout(() => {
+        setSearchIconClicked(false);
+      }, 1000);
+    }
+  };
 
   return (
     <div
-      className={`fixed top-0 w-full z-10  transition-bgColor duration-500 ${
-        data ? "bg-black bg-opacity-90" : ""
-      } ${data ? (scrolled ? " bg-slate-900" : "") : ""}`}
+      className={`fixed top-0 w-full z-50  transition-bgColor duration-500 
+      } ${data ? "bg-black bg-opacity-90" : ""} ${
+        data ? (scrolled ? " bg-slate-900" : "") : ""
+      }`}
     >
       <nav className=" flex justify-between items-center w-[90%] mx-auto">
         <div className="left-nav flex items-center">
-          <div className=" logo w-20 md:w-32 lg:w-40 mr-10">
-            <img src={netflixLogo} alt="logo" className="w-full" />
+          <div className=" logo w-24 py-3 sm:py-0 sm:w-40 sm:mr-10">
+            <img
+              src={netflixLogo}
+              alt="logo"
+              className="w-full cursor-pointer"
+              onClick={() => navigate("/browse")}
+            />
           </div>
-          {data && (
-            <div className="ul-list hidden lg:block">
-              <ul className="text-white flex gap-8">
-                <li className=" cursor-pointer hover:text-slate-400">Home</li>
-                <li className=" cursor-pointer hover:text-slate-400">
-                  Tv Shows
-                </li>
-                <li className=" cursor-pointer hover:text-slate-400">Movies</li>
-                <li className=" cursor-pointer hover:text-slate-400">
-                  New and Popular
-                </li>
-                <li className=" cursor-pointer hover:text-slate-400">
-                  Trending
-                </li>
-              </ul>
-            </div>
-          )}
         </div>
         <div className="right-nav ">
           {data && (
@@ -126,8 +119,10 @@ const Header = () => {
                     />
                     <input
                       type="text"
-                      placeholder="Titles, people, genres"
-                      className="bg-black text-white focus:border-transparent focus:outline-none  w-[90%]"
+                      placeholder="Search By Titles"
+                      className="bg-black text-white focus:border-transparent focus:outline-none w-[50%] sm:w-[90%]"
+                      onChange={(event) => setSearchText(event.target.value)}
+                      onKeyUp={searchQueryHandler}
                     />
                   </div>
                 ) : (
@@ -138,10 +133,10 @@ const Header = () => {
                   />
                 )}
               </div>
-              <div className="children text-white">
+              <div className="children text-white hidden sm:block">
                 <p className="cursor-pointer">Children</p>
               </div>
-              <div className="notification">
+              <div className="notification hidden sm:block">
                 <FaBell className="text-white cursor-pointer" />
               </div>
               <div className="signout flex items-center gap-1">

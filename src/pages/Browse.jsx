@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Header,
   MainContainer,
@@ -6,6 +5,10 @@ import {
   Footer,
 } from "../components";
 import useFetch from "../customHooks/useFetch";
+import { useDispatch } from "react-redux";
+import { addGenres } from "../utils/GenresSlice";
+import { useEffect } from "react";
+import useBrowse from "../customHooks/useBrowse";
 
 const Browse = () => {
   const {
@@ -14,11 +17,17 @@ const Browse = () => {
     error: nowPlayingError,
   } = useFetch("/movie/now_playing");
 
+  // calling of useBrowse hook
+  useBrowse(true);
+
   return (
-    <div className="browse w-full h-screen bg-slate-500">
+    <div className="browse w-full bg-slate-500">
       <Header />
-      <MainContainer data={nowPlayingData} />
-      <CarouselContainer data={nowPlayingData} />
+      <MainContainer data={nowPlayingData} isLoading={nowPlayingIsLoading} />
+      <CarouselContainer
+        data={nowPlayingData}
+        isLoading={nowPlayingIsLoading}
+      />
       <Footer />
     </div>
   );

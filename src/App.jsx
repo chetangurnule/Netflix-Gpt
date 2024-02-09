@@ -6,16 +6,16 @@ import Form from "./pages/Form";
 function App() {
   return (
     <>
-      <div className="w-full h-auto ">
-        <div className="backgroundImage w-full h-full bg-black bg-opacity-90">
+      <Header />
+      <div className="w-full h-[600px]">
+        <div className="relative backgroundImage w-full h-full bg-black bg-opacity-90">
           <img
-            className="w-[100%] h-[100%] opacity-50"
+            className="w-full h-full opacity-50"
             src={BackgroundImage}
             alt="backgroundImage"
           />
+          <Form />
         </div>
-        <Header />
-        <Form />
         <Footer />
       </div>
     </>

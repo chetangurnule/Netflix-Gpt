@@ -8,6 +8,14 @@ import CarouselContainer from "./CarouselContainer";
 import Carousel from "./Carousel";
 import CarouselCard from "./CarouselCard";
 import Footer from "./Footer";
+import MovieCard from "./MovieCard";
+import SingleMovie from "./SingleMovie";
+import Icon from "./Icon";
+import CircleRating from "./CircleRating";
+import VideoPopup from "./VideoPopup";
+import Cast from "./Cast";
+import Search from "./Search";
+import Spinner from "./Spinner";
 
 export {
   Header,
@@ -20,4 +28,12 @@ export {
   Carousel,
   CarouselCard,
   Footer,
+  MovieCard,
+  SingleMovie,
+  Icon,
+  CircleRating,
+  VideoPopup,
+  Cast,
+  Search,
+  Spinner,
 };

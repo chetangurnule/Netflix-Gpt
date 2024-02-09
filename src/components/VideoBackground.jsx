@@ -1,17 +1,16 @@
 import React from "react";
 import useFetch from "../customHooks/useFetch";
-
 const VideoBackground = ({ movie }) => {
   if (!movie) return;
   const { id } = movie;
-  const { data, isLoading, error } = useFetch(`/movie/${id}/videos`);
+  const { data, error } = useFetch(`/movie/${id}/videos`);
   if (!data) return;
   const trailerObj = data?.results?.find((obj) => obj.type === "Trailer");
   const key = trailerObj?.key;
   return (
-    <div className="w-100%">
+    <div className="w-full aspect-video ">
       <div
-        className="aspect-video"
+        className="w-full aspect-video"
         style={{
           position: "absolute",
           top: 0,
@@ -28,7 +27,7 @@ const VideoBackground = ({ movie }) => {
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       ></iframe>
 
-      <div className="absolute top-[105%] w-full h-36 bg-gradient-to-t from-black to-transparent"></div>
+      <div className="relative -top-36 w-full h-36 bg-gradient-to-t from-black to-transparent"></div>
     </div>
   );
 };

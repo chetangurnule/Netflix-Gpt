@@ -6,6 +6,8 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Browse from "./pages/Browse.jsx";
 import { Provider } from "react-redux";
 import store from "./utils/store.js";
+import SingleMoviePage from "./pages/SingleMoviePage.jsx";
+import SearchMovie from "./pages/SearchMovie.jsx";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +20,14 @@ const router = createBrowserRouter([
       {
         path: "/browse",
         element: <Browse />,
+      },
+      {
+        path: "/movie/:movieId",
+        element: <SingleMoviePage />,
+      },
+      {
+        path: "/search/:searchText",
+        element: <SearchMovie />,
       },
     ],
   },
